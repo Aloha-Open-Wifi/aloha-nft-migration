@@ -1,0 +1,24 @@
+{
+  "name": "aloha-nft-migration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aloha-Open-Wifi/aloha-nft-migration.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aloha-Open-Wifi/aloha-nft-migration/issues"
+  },
+  "homepage": "https://github.com/Aloha-Open-Wifi/aloha-nft-migration#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "web3": "^1.3.5"
+  }
+}
