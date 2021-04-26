@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+const fs = require('fs');
+
 class AlohaMigrator {
     constructor() {
         this.newContractAbi = require('./abis/v2.json');
@@ -7,6 +9,7 @@ class AlohaMigrator {
         this.v2Address = '0xFbb85FafE01BFce4974eE04cFeD386DD82A20C76';
         this.v1Address = '0x94d6a6032400e99639dd72612045402247d72436';
         this.Web3 = require('web3');
+        this.cacheFile = './last_migrated.txt';
     }
 
     async run() {
@@ -21,6 +24,7 @@ class AlohaMigrator {
                 gasPrice: gasPrice, 
                 gas: gasEstimate
             });
+            fs.writeFileSync(this.cacheFile, id);
             console.log('Migrated!');
         }
     }
@@ -29,7 +33,16 @@ class AlohaMigrator {
         const ids = await this._getLastMinteds();
         const contract = this._getNewContract();
         const nonMinteds = [];
+        let lastId = 0;
+        try {
+            lastId = parseInt(fs.readFileSync(this.cacheFile, 'utf-8'));
+        } catch (e) {
+        }
+
         for (const id of ids) {
+            if (id < lastId) {
+                continue;
+            }
             try {
                 await contract.methods.migrateToken(id).call(); // If the contract doesn't throw an exception, is pending
                 nonMinteds.push(id);
